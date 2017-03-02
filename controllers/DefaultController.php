@@ -37,6 +37,8 @@ class DefaultController extends Controller
         $modelFiscalYear = new FiscalYear();
         $dataProvider = [];
         $modelFiscalYearPrevious = [];
+        $data=[];
+        $count = [];
         if($model->load(Yii::$app->request->get())){
             
             $modelFiscalYear->load(Yii::$app->request->get());
@@ -189,11 +191,15 @@ class DefaultController extends Controller
     public function actionGetPositionLine() {
      $out = [];
       $post = Yii::$app->request->post();
-     if ($post['depdrop_parents']) {
+     if (isset($post['depdrop_parents'])) {
          $parents = $post['depdrop_parents'];
-         if ($parents != null) {
+         $section_id = null;
+         $person_type_id = null;
+         if (isset($parents) && $parents != null) {
              $section_id = $parents[0];
+             if(isset($parents[1]))
              $person_type_id = $parents[1];
+             
              $out = $this->getPositionLine($section_id,$person_type_id);
              echo Json::encode(['output'=>$out, 'selected'=>'']);
              return;

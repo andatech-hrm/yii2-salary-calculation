@@ -45,149 +45,156 @@ $this->registerCss($css);
     </div>
     
     
-    <div class="row">
-        <div class="col-sm-12">
-        <table class="table table-striped table-bordered tData">
-            
-            <thead>
-                <tr>
-                    <th rowspan="3" >#</th>
-                    <th rowspan="3" >ชื่อ-สกุล / ตำแหน่ง</th>
-                    <th rowspan="3" >ขั้น</th>
-                    <th rowspan="3" >อัตราเงินเดือน</th>
-                    <!--Pass-->
-                    <th colspan="<?=$th1?>" >ข้อมูลย้อนหัง <?=$model->previous?> ปี</th>
-                    <!--Pass-->
-                    <th rowspan="3" >ผลการประเมิน</th>
-                    <th rowspan="3" >ร้อยละ %</th>
-                    <th rowspan="3" >ระดับ</th>
-                    <!--Pass-->
-                    <?php 
-                    #Step
-                    foreach($rangeStep as $step => $val):
-                    ?>
-                         <th rowspan="2" colspan="2">กรณีเพิ่ม</th>
-                    <?php 
-                    endforeach;
-                    ?>
-                    <!--Pass-->
-                    <th rowspan="3" >หมายเหตุ</th>
-                </tr>
-                
-                <tr>
-                    <!--Pass-->
-                    <?php foreach($modelFiscalYearPrevious as $year=>$val):?>
-                    <th colspan="2">งบปี <?=$year+543?></th>
-                    <?php endforeach;?>
-                    <!--Pass-->
-                </tr>
-                <tr>
-                    <!--Pass-->
-                   
-                    
-                    <?php 
-                    #Previous
-                    foreach($modelFiscalYearPrevious as $year=>$phase):
-                        foreach($phase as $val):
-                    ?>
-                         <th ><?=$val->dateStart?></th>
-                    <?php 
-                        endforeach;
-                    endforeach;
-                    ?>
-                    
-                    <?php 
-                    #Step
-                    foreach($rangeStep as $step => $val):
-                    ?>
-                         <th ><?=$step?></th>
-                         <th >เป็นเงิน</th>
-                    <?php 
-                    endforeach;
-                    ?>
-                    <!--Pass-->
-                </tr>
-            </thead>
-            
-            <tbody>
-                <?php
-                
-                    #รวมเงินเดือนปัจจุบัน
-                        $totalSalary = 0; 
-                        $totalStepSalary = []; 
-                if($data){
-                    //$data = $dataProvider->getModels();
-                    foreach($data as $key => $model):
-                        
-                        $assessment=$model->assessment;
-                        
-                        $totalSalary += $model->salary;
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered tData">
+        
+        <thead>
+            <tr>
+                <th rowspan="3" >#</th>
+                <th rowspan="3" class="text-nowrap text-center">ชื่อ-สกุล / ตำแหน่ง</th>
+                <th rowspan="3" >ขั้น</th>
+                <th rowspan="3" >อัตราเงินเดือน</th>
+                <!--Pass-->
+                <th class="text-center" colspan="<?=$th1?>" >ข้อมูลย้อนหัง <?=$model->previous?> ปี</th>
+                <!--Pass-->
+                <th rowspan="3" >ผลการประเมิน</th>
+                <th rowspan="3" >ร้อยละ %</th>
+                <th rowspan="3" >ระดับ</th>
+                <!--Pass-->
+                <?php 
+                #Step
+                foreach($rangeStep as $step => $val):
                 ?>
-                    <tr >
-                        <td><?=($key+1)?></td>
-                        <td><?=$model->user->fullname?><br/><?=$model->user->positionTitle?></td>
-                        <td><?=$model->step?></td>
-                        <td><?=Yii::$app->formatter->asDecimal($model->salary)?></td>
-                            <?php 
-                            foreach($model->dataPrevious as $year=>$phase):
-                                // echo "<pre>";
-                                // print_r($model->dataPrevious);
-                                // exit();
-                                foreach($phase as $val):
-                            ?>
-                                <th ><?=$val->step_adjust?></th>
-                            <?php 
-                                endforeach;
-                            endforeach;
-                            ?>
-                        <td><?=$assessment?$assessment->assessment:null?></td>
-                        <td><?=$assessment?$assessment->percent:null?></td>
-                        <td><?=$assessment?$assessment->level:null?></td>
-                        
-                         <?php 
-                            foreach($model->dataStepCal as $step=>$val):
-                                // echo "<pre>";
-                                // print_r($model->dataPrevious);
-                                // exit();
-                                $totalStepSalary[$step]['salary'] += $val->salary;
-                                $totalStepSalary[$step]['diff'] += $val->diff;
-                            ?>
-                            <th ><?=Yii::$app->formatter->asDecimal($val->salary)?></th>
-                            <th ><?=Yii::$app->formatter->asDecimal($val->diff)?></th>
-                            <?php 
-                            endforeach;
-                            ?>
-                        
-                        <td></td>
-                    </tr>
-                    
-                <?php
-                    endforeach;
-                }else{
+                     <th rowspan="2" colspan="2">กรณีเพิ่ม</th>
+                <?php 
+                endforeach;
                 ?>
-                <tr><td colspan ="20" class="text-center">โปรดเลือกตัวเลือกก่อน</td></tr>
-                <?php }?>
-            </tbody>
-            <?php if($data):?>
-            <tfoot>
-                <tr><td>&nbsp;</td><td>Total</td><td>&nbsp;</td>
-                <td><?=Yii::$app->formatter->asDecimal($totalSalary)?></td>
-                <td colspan="<?=$th1?>">&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <?php
-                foreach($totalStepSalary as $k=>$val):?>
-                    <td><?=Yii::$app->formatter->asDecimal($val['salary'])?></td>
-                    <td><?=Yii::$app->formatter->asDecimal($val['diff'])?></td>
+                <!--Pass-->
+                <th rowspan="3" >หมายเหตุ</th>
+            </tr>
+            
+            <tr>
+                <!--Pass-->
+                <?php foreach($modelFiscalYearPrevious as $year=>$val):?>
+                <th class="text-center" colspan="2">งบปี <?=$year+543?></th>
                 <?php endforeach;?>
-                   <td>&nbsp;</td>
+                <!--Pass-->
+            </tr>
+            <tr>
+                <!--Pass-->
+               
+                
+                <?php 
+                #Previous
+                foreach($modelFiscalYearPrevious as $year=>$phase):
+                    foreach($phase as $val):
+                ?>
+                     <th class="text-nowrap text-center"><?=$val->dateStart?></th>
+                <?php 
+                    endforeach;
+                endforeach;
+                ?>
+                
+                <?php 
+                #Step
+                foreach($rangeStep as $step => $val):
+                ?>
+                     <th ><?=$step?></th>
+                     <th >เป็นเงิน</th>
+                <?php 
+                endforeach;
+                ?>
+                <!--Pass-->
+            </tr>
+        </thead>
+        
+        <tbody>
+            <?php
+            
+                #รวมเงินเดือนปัจจุบัน
+                    $totalSalary = 0; 
+                    $totalStepSalary = []; 
+            if($data){
+                //$data = $dataProvider->getModels();
+                foreach($data as $key => $model):
+                    
+                    $assessment=$model->assessment;
+                    
+                    $totalSalary += $model->salary;
+            ?>
+                <tr >
+                    <td><?=($key+1)?></td>
+                    <td class="text-nowrap"><?=$model->user->fullname?><br/><?=$model->user->positionTitle?></td>
+                    <td><?=$model->step?></td>
+                    <td><?=Yii::$app->formatter->asDecimal($model->salary)?></td>
+                        <?php 
+                        foreach($model->dataPrevious as $year=>$phase):
+                            // echo "<pre>";
+                            // print_r($model->dataPrevious);
+                            // exit();
+                            foreach($phase as $val):
+                        ?>
+                            <td ><?=isset($val->step_adjust)?$val->step_adjust:''?></td>
+                        <?php 
+                            endforeach;
+                        endforeach;
+                        ?>
+                    <td><?=$assessment?$assessment->assessment:null?></td>
+                    <td><?=$assessment?$assessment->percent:null?></td>
+                    <td><?=$assessment?$assessment->level:null?></td>
+                    
+                     <?php 
+                        foreach($model->dataStepCal as $step=>$val):
+                            // echo "<pre>";
+                            // print_r($model->dataPrevious);
+                            // exit();
+                            if(!isset($totalStepSalary[$step]['salary'])){
+                            $totalStepSalary[$step]['salary'] = 0;
+                            $totalStepSalary[$step]['diff'] = 0;
+                            }
+                            
+                            $totalStepSalary[$step]['salary'] += $val->salary;
+                            $totalStepSalary[$step]['diff'] += $val->diff;
+                        ?>
+                        <td ><?=Yii::$app->formatter->asDecimal($val->salary)?></td>
+                        <td ><?=Yii::$app->formatter->asDecimal($val->diff)?></td>
+                        <?php 
+                        endforeach;
+                        ?>
+                    
+                    <td></td>
                 </tr>
-            </tfoot>
-            <?php endif;?>
-        </table>
+                
+            <?php
+                endforeach;
+            }else{
+            ?>
+            <tr><td colspan ="20" class="text-center">โปรดเลือกตัวเลือกก่อน</td></tr>
+            <?php }?>
+        </tbody>
+        <?php if($data):?>
+        <tfoot>
+            <tr><td>&nbsp;</td><td><?=Yii::t('andahrm','Total')?></td><td>&nbsp;</td>
+            <td><?=Yii::$app->formatter->asDecimal($totalSalary)?></td>
+            <td colspan="<?=$th1?>">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <?php
+            foreach($totalStepSalary as $k=>$val):?>
+                <td><?=Yii::$app->formatter->asDecimal($val['salary'])?></td>
+                <td><?=Yii::$app->formatter->asDecimal($val['diff'])?></td>
+            <?php endforeach;?>
+               <td>&nbsp;</td>
+            </tr>
+        </tfoot>
+        <?php endif;?>
+    </table>
         </div>
     </div>
+</div>
         <?php
     
        /* 

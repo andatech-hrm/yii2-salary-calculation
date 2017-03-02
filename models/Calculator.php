@@ -36,7 +36,7 @@ class Calculator extends PersonPositionSalary
     public function attributeLabels()
     {
         $attr = parent::attributeLabels();
-        $attr['previous'] = Yii::t('andahrm/position-salary', 'ข้อมูลย้อนหลัง(ปี)');
+        $attr['previous'] = Yii::t('andahrm/position-salary', 'Previous Year');
         return $attr;
     }
   
